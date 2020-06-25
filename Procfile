@@ -1,0 +1,1 @@
+web: gunicorn meus_sinais_api.wsgi
