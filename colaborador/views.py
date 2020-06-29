@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
+from core.models import Usuario
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,10 +10,9 @@ from rest_framework.decorators import api_view
 from core.models import Colaborador
 
 
-class CadastroColaboradorView(APIView):
-
-	@api_view(['POST'])
-	def post(self, request):
+@api_view(['POST'])
+def cadastro_colaborador(request):
+	if request.method == 'POST':
 		usuario = request.data['usuario']
 		senha = request.data['senha']
 		email = request.data['email']
@@ -25,7 +25,7 @@ class CadastroColaboradorView(APIView):
 		perfil = request.data['perfil']
 
 		user_username = User.objects.filter(username=usuario).first()
-		user_cpf = User.objects.filter(cpf=cpf).first()
+		user_cpf = Usuario.objects.filter(cpf=cpf).first()
 		colaborador_email = Colaborador.objects.filter(email=email).first()
 		colaborador_crp = Colaborador.objects.filter(crp=crp).first()
 

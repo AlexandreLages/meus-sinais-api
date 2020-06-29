@@ -4,5 +4,5 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-	path('cadastrar/', views.CadastroColaboradorView.as_view(), name='core_cadastro_colaborador'),
+	path('cadastrar/', views.cadastro_colaborador, name='core_cadastro_colaborador'),
 ]
