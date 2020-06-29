@@ -76,7 +76,26 @@ def cadastro_colaborador(request):
 
 
 
-@api_view(['POST'])
-def cadastro_colaborador(request):
-	if request.method == 'POST':
+@api_view(['GET'])
+def lista_colaborador(request):
+	if request.method == 'GET':
 		colaboradores = Colaborador.objects.all()
+		lista = []
+
+		for colaborador in colaboradores:
+			c = {
+				'usuario': colaborador.user.username,
+				'nome': colaborador.nome,
+				'telefone_celular': colaborador.telefone_celular,
+				'telefone_fixo': colaborador.telefone_fixo,
+				'cpf': colaborador.cpf,
+				'rg': colaborador.rg,
+				'email': colaborador.email,
+				'sexo': colaborador.sexo,
+				'crp': colaborador.crp,
+				'perfil': colaborador.perfil
+			}
+
+			lista.append(c)
+
+		return Response(lista)
