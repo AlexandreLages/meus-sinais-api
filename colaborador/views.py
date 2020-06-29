@@ -73,3 +73,10 @@ def cadastro_colaborador(request):
 				"message": "Usuário cadastrado com sucesso!"
 			}
 			return Response({"response": response})
+
+
+
+@api_view(['POST'])
+def cadastro_colaborador(request):
+	if request.method == 'POST':
+		colaboradores = Colaborador.objects.all()
