@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('api/colaborador/', include('colaborador.urls')),
     path('api/paciente/', include('paciente.urls')),
-    path('get-token/', obtain_jwt_token),
+    path('get-token-colaborador/', obtain_jwt_token),
+    path('get-token-paciente/', obtain_jwt_token),
     path('refresh-token/', refresh_jwt_token),
 ]
