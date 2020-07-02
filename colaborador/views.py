@@ -26,7 +26,7 @@ def cadastro_colaborador(request):
 
 		user_username = User.objects.filter(username=usuario).first()
 		user_cpf = Usuario.objects.filter(cpf=cpf).first()
-		colaborador_email = Colaborador.objects.filter(email=email).first()
+		user_email = Usuario.objects.filter(email=email).first()
 		colaborador_crp = Colaborador.objects.filter(crp=crp).first()
 
 		if user_username is not None:
@@ -41,7 +41,7 @@ def cadastro_colaborador(request):
 				"message": "Já existe um usuário com o mesmo CPF!"
 			}
 			return Response({"response": response})
-		elif colaborador_email is not None:
+		elif user_email is not None:
 			response = {
 				"status": 409,
 				"message": "Já existe um usuário com o mesmo Email!"

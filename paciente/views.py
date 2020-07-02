@@ -1,14 +1,9 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from core.models import Usuario
 from core.models import Paciente
 
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
-
-from core.models import Colaborador
 
 
 @api_view(['POST'])
@@ -16,7 +11,6 @@ def cadastro_paciente(request):
 	if request.method == 'POST':
 		usuario = request.data['usuario']
 		senha = request.data['senha']
-		confirma_senha = request.data['confirmarSenha']
 		email = request.data['email']
 		nome = request.data['nome']
 		telefone = request.data['telefone']
@@ -24,11 +18,31 @@ def cadastro_paciente(request):
 		cpf = request.data['cpf']
 		sexo = request.data['sexo']
 		orientacao_sexual = request.data['orientacao_sexual']
-		paciente = None
+		data_nascimento = request.data['data_nascimento']
 
-		user = User.objects.filter(username=usuario)
+		user_username = User.objects.filter(username=usuario).first()
+		user_cpf = Usuario.objects.filter(cpf=cpf).first()
+		user_email = Usuario.objects.filter(email=email).first()
 
-		if not user:
+		if user_username is not None:
+			response = {
+				"status": 409,
+				"message": "Já existe um usuário com o mesmo Usuário!"
+			}
+			return Response({"response": response})
+		elif user_cpf is not None:
+			response = {
+				"status": 409,
+				"message": "Já existe um usuário com o mesmo CPF!"
+			}
+			return Response({"response": response})
+		elif user_email is not None:
+			response = {
+				"status": 409,
+				"message": "Já existe um usuário com o mesmo Email!"
+			}
+			return Response({"response": response})
+		else:
 			user = User.objects.create_user(usuario, email, senha)
 			user.save()
 
@@ -39,6 +53,7 @@ def cadastro_paciente(request):
 				cpf=cpf,
 				email=email,
 				sexo=sexo,
+				data_nascimento=data_nascimento,
 				orientacao_sexual=orientacao_sexual
 			)
 
@@ -46,9 +61,9 @@ def cadastro_paciente(request):
 			paciente.user = user
 			paciente.save()
 
-		response = {
-			"status": 200,
-			"message": "Paciente cadastrado com sucesso!"
-		}
+			response = {
+				"status": 200,
+				"message": "Paciente cadastrado com sucesso!"
+			}
 
-		return Response({"response": response})
+			return Response({"response": response})
