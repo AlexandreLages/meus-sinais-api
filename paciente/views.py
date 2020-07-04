@@ -1,9 +1,23 @@
 from django.contrib.auth.models import User
-from core.models import Usuario
+from core.models import Usuario, Especialidade
 from core.models import Paciente
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def lista_motivos(request):
+	especialidades = Especialidade.objects.all()
+	lista = []
+
+	for especialidade in especialidades:
+		c = {
+			'id': especialidade.id,
+			'nome': especialidade.nome
+		}
+		lista.append(c)
+
+	return Response(lista)
 
 
 @api_view(['POST'])
